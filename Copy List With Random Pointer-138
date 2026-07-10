@@ -1,0 +1,64 @@
+/*
+Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+class Solution {
+    public Node copyRandomList(Node head) {
+
+        // Base case: if the list is empty, return null
+        if (head == null) {
+            return null;
+        }
+
+        // HashMap to store mapping:
+        // Original Node -> Copied Node
+        HashMap<Node, Node> map = new HashMap<>();
+
+        // Create the head of the copied list
+        Node newHead = new Node(head.val);
+        Node oldTemp = head.next;
+        Node newTemp = newHead;
+
+        // Store the mapping for the head node
+        map.put(head, newHead);
+
+        // -------- First Pass --------
+        // Create copy nodes and connect them using next pointers
+        while (oldTemp != null) {
+            Node copyNode = new Node(oldTemp.val);
+            map.put(oldTemp, copyNode);
+
+            newTemp.next = copyNode;
+
+            oldTemp = oldTemp.next;
+            newTemp = newTemp.next;
+        }
+
+        // Reset pointers to traverse both lists again
+        oldTemp = head;
+        newTemp = newHead;
+
+        // -------- Second Pass --------
+        // Assign random pointers using the HashMap
+        while (oldTemp != null) {
+            newTemp.random = map.get(oldTemp.random);
+
+            oldTemp = oldTemp.next;
+            newTemp = newTemp.next;
+        }
+
+        // Return the head of the copied list
+        return newHead;
+    }
+}

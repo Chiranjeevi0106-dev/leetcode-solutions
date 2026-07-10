@@ -1,0 +1,32 @@
+class Solution {
+    public void helper(int[][] maze, int row, int col, String path, ArrayList<String> ans){
+        int n = maze.length;
+        
+        if(row < 0 || col < 0 || row >= n || col >= n || maze[row][col] == 0 || maze[row][col] == -1){
+            return;
+        }
+        
+        if(row == n-1 && col == n-1){
+            ans.add(path);
+            return;
+        }
+        
+        maze[row][col] = -1;
+        
+        helper(maze, row + 1, col, path + "D", ans);
+        helper(maze, row - 1, col, path + "U", ans);
+        helper(maze, row, col + 1, path + "R", ans);
+        helper(maze, row, col - 1, path + "L", ans);
+        
+        maze[row][col] = 1;
+    }
+    
+    public ArrayList<String> ratInMaze(int[][] maze) {
+        int n = maze.length;
+        ArrayList<String> ans = new ArrayList<>();
+        String path = "";
+        helper(maze, 0, 0, "", ans);
+        return ans;
+        
+    }
+}

@@ -1,0 +1,17 @@
+class Solution {
+    public int findMin(int n) {
+        int coins[] = {10,5,2,1};
+        int countOfCoins = 0;
+        
+        for(int i = 0; i < coins.length; i++){
+            if(coins[i] <= n){
+                while(coins[i] <= n){
+                    countOfCoins++;
+                    n -= coins[i];
+                }
+            }
+        }
+        return countOfCoins;
+        
+    }
+}

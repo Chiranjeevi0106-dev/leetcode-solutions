@@ -1,0 +1,46 @@
+//Sliding window approach and we compare the frequency of the characters in the window 
+// with the frequency of the characters in sliding window approach and we can use a helper
+//  fucntion to compare the frequency of the characters in the window with the frequency 
+// of the characters in the string s1. If the frequency of the characters in the window is
+//  same as the frequency of the characters in s1 then we return true else we return false.
+
+
+class Solution {
+    static boolean isSameFreq(int freq1[], int freq2[]){
+        for(int i = 0; i < 26; i++){
+            if(freq1[i] != freq2[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkInclusion(String s1, String s2) {
+        int freq[] = new int[26];
+
+        for(int i = 0; i < s1.length(); i++){
+            freq[s1.charAt(i) - 'a']++;
+        }
+
+        int windowSize = s1.length();
+
+        for(int i = 0; i < s2.length(); i++){
+            int windowIdx = 0;
+            int idx = i;
+
+            int winFreq[] = new int[26];
+
+            while(windowIdx < windowSize && idx < s2.length()){
+                winFreq[s2.charAt(idx) - 'a']++;
+
+                windowIdx++;
+                idx++;
+            }
+            if(isSameFreq(freq, winFreq)){
+            return true;
+            }
+        }
+        return false;
+        
+    }
+}

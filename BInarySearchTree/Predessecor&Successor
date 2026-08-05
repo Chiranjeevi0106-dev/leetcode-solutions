@@ -1,0 +1,35 @@
+public int[] getPredSucc(TreeNode root, int key) {
+
+    TreeNode curr = root;
+    TreeNode pred = null;
+    TreeNode succ = null;
+
+    while (curr != null) {
+
+        if (key < curr.val) {
+            succ = curr;
+            curr = curr.left;
+        }
+        else if (key > curr.val) {
+            pred = curr;
+            curr = curr.right;
+        }
+        else {
+
+            if (curr.left != null) {
+                pred = rightMostInLeftSubtree(curr.left);
+            }
+
+            if (curr.right != null) {
+                succ = leftMostInRightSubtree(curr.right);
+            }
+
+            break;
+        }
+    }
+
+    return new int[]{
+        pred == null ? -1 : pred.val,
+        succ == null ? -1 : succ.val
+    };
+}

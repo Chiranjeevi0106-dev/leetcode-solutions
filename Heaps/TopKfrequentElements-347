@@ -1,0 +1,36 @@
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        // Count frequency
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                map.put(nums[i], map.get(nums[i]) + 1);
+            } else {
+                map.put(nums[i], 1);
+            }
+        }
+
+        // Max Heap
+        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<Integer>() {
+            public int compare(Integer a, Integer b) {
+                return map.get(b) - map.get(a);
+            }
+        });
+
+        // Add all unique numbers
+        for (int key : map.keySet()) {
+            pq.add(key);
+        }
+
+        // Remove top k elements
+        int[] ans = new int[k];
+
+        for (int i = 0; i < k; i++) {
+            ans[i] = pq.remove();
+        }
+
+        return ans;
+    }
+}

@@ -1,0 +1,24 @@
+class Solution {
+    public void sortStack(Stack<Integer> st) {
+        if(st.isEmpty() || st.size() == 1){
+            return;
+        }
+        
+        int top = st.pop();
+        sortStack(st);
+        insert(top, st);
+        
+        return;
+    }
+    
+    public void insert(int element, Stack<Integer> st){
+        if(st.isEmpty() || st.peek() < element){
+            st.push(element);
+            return;
+        }
+        
+        int top = st.pop();
+        insert(element, st);
+        st.push(top);
+    }
+}

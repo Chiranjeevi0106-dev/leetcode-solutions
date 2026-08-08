@@ -1,0 +1,30 @@
+class Solution {
+    boolean isPalindrome(String s){
+        String s2 = new StringBuilder(s).reverse().toString();
+
+        return s.equals(s2);
+    }
+
+    void getAllPartitions(String s, ArrayList<String> partitions, List<List<String>> ans){
+        if(s.length() == 0) {
+            ans.add(new ArrayList<>(partitions));
+            return;
+        }
+        for(int i = 0; i < s.length(); i++){
+            String parts = s.substring(0, i+1);
+            if(isPalindrome(parts)){
+                partitions.add(parts);
+                getAllPartitions(s.substring(i+1), partitions, ans);
+                partitions.remove(partitions.size() - 1);
+            }
+        }
+    }
+
+    public List<List<String>> partition(String s) {
+        List<List<String>> ans = new ArrayList<>();
+        ArrayList<String> partitions = new ArrayList<>();
+
+        getAllPartitions(s, partitions, ans);
+        return ans;
+    }
+}

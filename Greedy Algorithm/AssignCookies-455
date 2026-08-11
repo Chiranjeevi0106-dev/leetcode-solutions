@@ -1,0 +1,30 @@
+import java.util.Arrays;
+
+class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+
+        int m = g.length;
+        int n = s.length;
+
+        int lp = 0;  // child pointer
+        int rp = 0;  // cookie pointer
+
+        Arrays.sort(g);
+        Arrays.sort(s);
+
+        while (lp < m && rp < n) {
+
+            if (g[lp] <= s[rp]) {
+                // Cookie satisfies the child
+                lp++;
+                rp++;
+            } 
+            else {
+                // Cookie is too small, try next cookie
+                rp++;
+            }
+        }
+
+        return lp;
+    }
+}

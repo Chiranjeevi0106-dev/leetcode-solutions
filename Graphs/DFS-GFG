@@ -1,0 +1,38 @@
+class Solution {
+
+    public ArrayList<Integer> dfs(ArrayList<ArrayList<Integer>> adj) {
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        boolean[] visited = new boolean[adj.size()];
+
+        // Start DFS from node 0
+        dfsHelper(0, adj, visited, ans);
+
+        return ans;
+    }
+
+    public void dfsHelper(int curr,
+                          ArrayList<ArrayList<Integer>> adj,
+                          boolean[] visited,
+                          ArrayList<Integer> ans) {
+
+        // Mark current node visited
+        visited[curr] = true;
+
+        // Add current node to answer
+        ans.add(curr);
+
+        // Visit all neighbours
+        for (int i = 0; i < adj.get(curr).size(); i++) {
+
+            int e = adj.get(curr).get(i);
+
+            // If neighbour is not visited
+            if (!visited[e]) {
+
+                dfsHelper(e, adj, visited, ans);
+            }
+        }
+    }
+}

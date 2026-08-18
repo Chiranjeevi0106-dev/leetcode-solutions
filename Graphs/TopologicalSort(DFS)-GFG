@@ -1,0 +1,56 @@
+class Solution {
+    static class Edge {
+        int src;
+        int dst;
+        
+        public Edge(int src, int dst) {
+            this.src = src;
+            this.dst = dst;
+        }
+    }
+    
+    public static void topSort(ArrayList<Edge>[] graph, ArrayList<Integer> ans) {
+        boolean vis[] = new boolean[graph.length];
+        Stack<Integer> s = new Stack<>();
+        
+        for(int i = 0; i < graph.length; i++) {
+            if(!vis[i]) {
+                topSortUtil(graph, i, vis, s); 
+            }
+        }
+        while(!s.isEmpty()) {
+           ans.add(s.pop());
+        }
+    }
+    
+    public static void topSortUtil(ArrayList<Edge>[] graph, int curr, boolean[] vis, Stack<Integer> s) {
+        vis[curr] = true;
+        for(int i = 0; i < graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if(!vis[e.dst]) {
+                topSortUtil(graph, e.dst, vis, s);
+            }
+        }
+        s.push(curr);
+    }
+    
+    public ArrayList<Integer> topoSort(int V, int[][] edges) {
+        ArrayList<Edge>[] graph = new ArrayList[V];
+        for(int i = 0; i < V; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        
+        for(int i = 0; i < edges.length; i++) {
+            int src = edges[i][0];
+            int dst = edges[i][1];
+            
+            graph[src].add(new Edge(src, dst));
+        }
+        
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        topSort(graph, ans);
+        
+        return ans;
+    }
+}

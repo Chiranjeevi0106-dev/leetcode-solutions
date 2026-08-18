@@ -1,0 +1,47 @@
+class Solution {
+    public static boolean detectCycle(ArrayList<Integer>[] graph) {
+        boolean[] vis = new boolean[graph.length];
+        boolean[] stack = new boolean[graph.length];
+
+        for(int i = 0; i < graph.length; i++) {
+            if(!vis[i]) {
+                if(utilDetectCycle(graph, i, vis, stack)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean utilDetectCycle(ArrayList<Integer>[] graph, int curr, boolean[] vis, boolean[] stack) {
+        vis[curr] = true;
+        stack[curr] = true;
+
+        for(int i = 0; i < graph[curr].size(); i++) {
+            int next = graph[curr].get(i);
+            if(stack[next]) {
+                return true;
+            } else if(!vis[next] && utilDetectCycle(graph, next, vis, stack)){
+                return true;
+            }
+        }
+        stack[curr] = false;
+        return false;
+    }
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<Integer> graph = new ArrayList<>();
+        for(int i = 0; i < numCourses; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for(int i = 0; i < prerequisites.length; i++) {
+            int course = prerequisites[i][0];
+            int prerequisite = prerequisites[i][1];
+
+            graph[prerequisite].add(course);
+        }
+
+        return !detectCycle;
+    }
+}

@@ -1,0 +1,23 @@
+class Solution {
+    static class Edge {
+        int src;
+        int dst;
+
+        public Edge(int src, int dst) {
+            this.src = src;
+            this.dst = dst;
+        }
+    }
+
+    public static void printAllPath(ArrayList<Edge>[] graph, int src, int dst, String path) {
+        if(src == dst) {
+            System.out.println(path + dst);
+            return;
+        }
+
+        for(int i = 0; i < graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            printAllPath(graph, e.dst, dst, path + src + "->");
+        }
+    }
+}

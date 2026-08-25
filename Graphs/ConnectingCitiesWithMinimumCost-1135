@@ -1,0 +1,120 @@
+//normal code(notes) here cities[][] array is given so this code will work for that
+static class Edge implements Comparable<Edge> {
+    int dest;
+    int cost;
+
+    public Edge(int d, int c) {
+        this.dest = d;
+        this.cost = c;
+    }
+
+    @Override
+    public int compareTo(Edge e2) {
+        return this.cost - e2.cost;
+    }
+}
+
+public static int connectCities(int cities[][]) {
+    PriorityQueue<Edge> pq = new PriorityQueue<>();
+    boolean vis[] = new boolean[cities.length];
+
+    pq.add(new Edge(0, 0));
+
+    int totalCost = 0;
+
+    while (!pq.isEmpty()) {
+        Edge curr = pq.remove();
+
+        if (!vis[curr.dest]) {
+            vis[curr.dest] = true;
+
+            totalCost += curr.cost;
+
+            for (int i = 0; i < cities[curr.dest].length; i++) {
+
+                if (cities[curr.dest][i] != 0) {
+                    pq.add(new Edge(i, cities[curr.dest][i]));
+                }
+            }
+        }
+    }
+
+    return totalCost;
+}
+
+//code for 1135
+class Solution {
+
+    static class Edge implements Comparable<Edge> {
+        int dest;
+        int cost;
+
+        public Edge(int d, int c) {
+            this.dest = d;
+            this.cost = c;
+        }
+
+        @Override
+        public int compareTo(Edge e2) {
+            return this.cost - e2.cost;
+        }
+    }
+
+    public int minimumCost(int n, int[][] connections) {
+
+        ArrayList<Edge>[] graph = new ArrayList[n + 1];
+
+        // Create graph
+        for (int i = 1; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        // Add connections
+        for (int i = 0; i < connections.length; i++) {
+
+            int src = connections[i][0];
+            int dest = connections[i][1];
+            int cost = connections[i][2];
+
+            graph[src].add(new Edge(dest, cost));
+            graph[dest].add(new Edge(src, cost));
+        }
+
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        boolean[] vis = new boolean[n + 1];
+
+        pq.add(new Edge(1, 0));
+
+        int totalCost = 0;
+        int citiesConnected = 0;
+
+        while (!pq.isEmpty()) {
+
+            Edge curr = pq.remove();
+
+            if (vis[curr.dest]) {
+                continue;
+            }
+
+            vis[curr.dest] = true;
+            totalCost += curr.cost;
+            citiesConnected++;
+
+            // Normal for loop
+            for (int i = 0; i < graph[curr.dest].size(); i++) {
+
+                Edge e = graph[curr.dest].get(i);
+
+                if (!vis[e.dest]) {
+                    pq.add(new Edge(e.dest, e.cost));
+                }
+            }
+        }
+
+        if (citiesConnected != n) {
+            return -1;
+        }
+
+        return totalCost;
+    }
+}
